@@ -1,14 +1,22 @@
 import tensorflow as tf
-import os
-
-# Get the output path from the Valohai machines environment variables
-output_path = os.getenv('VH_OUTPUTS_DIR')
+import json
 
 # Load and prepare the MNIST dataset. Convert the samples from integers to floating-point numbers:
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0
+
+# A function to write JSON to our output logs with the epoch number with the loss and accuracy from each run.
+def logMetadata(epoch, logs):
+    print()
+    print(json.dumps({
+        'epoch': epoch,
+        'loss': str(logs['loss']),
+        'acc': str(logs['acc']),
+    }))
+
+metadataCallback = tf.keras.callbacks.LambdaCallback(on_epoch_end=logMetadata)
 
 # Build the tf.keras.Sequential model by stacking layers.
 model = tf.keras.models.Sequential([
@@ -23,9 +31,6 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=5)
+model.fit(x_train, y_train, epochs=5, callbacks=[metadataCallback])
 
 model.evaluate(x_test,  y_test, verbose=2)
-
-# Save our file to that directory as model.h5
-model.save(os.path.join(output_path, 'model.h5'))
