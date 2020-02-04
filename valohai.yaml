@@ -2,15 +2,15 @@
 
 - step:
     name: Train MNIST model
-    image: tensorflow/tensorflow:1.13.1-gpu-py3
+    image: tensorflow/tensorflow:1.15.2-gpu-py3
     command: python train.py {parameters}
-    #inputs:
-    #  - name: example-input
-    #    default: https://example.com/
+    inputs:
+      - name: my-mnist-dataset
+        default: https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
     parameters:
-     - name: epoch_num
+     - name: epoch-num
        type: integer
        default: 5
-     - name: learning_rate
+     - name: learning-rate
        type: float
        default: 0.001
