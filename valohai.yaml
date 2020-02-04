@@ -12,5 +12,5 @@
        type: integer
        default: 5
      - name: learning_rate
-       type: double
+       type: float
        default: 0.001
