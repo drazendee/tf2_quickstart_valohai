@@ -3,12 +3,14 @@
 - step:
     name: Train MNIST model
     image: tensorflow/tensorflow:1.13.1-gpu-py3
-    command: python train.py
+    command: python train.py {parameters}
     #inputs:
     #  - name: example-input
     #    default: https://example.com/
-    #parameters:
-    # - name: example
-    #   description: Example parameter
-    #   type: integer
-    #   default: 300
+    parameters:
+     - name: epoch_num
+       type: integer
+       default: 5
+     - name: learning_rate
+       type: double
+       default: 0.001
