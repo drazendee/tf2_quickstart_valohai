@@ -33,7 +33,7 @@ def application(environ, start_response):
         return response(environ, start_response)
 
     # Load our model
-    model_path = '.models/model.h5'
+    model_path = 'model.h5'
     new_model = tf.keras.models.load_model(model_path)
 
     # Use our model to predict the class of the file sent over a form.
