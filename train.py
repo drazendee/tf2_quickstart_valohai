@@ -5,10 +5,10 @@ import argparse
 import numpy
 
 # Get the output path from the Valohai machines environment variables
-output_path = os.getenv('VH_OUTPUTS_DIR')
+output_path = os.getenv('VH_OUTPUTS_DIR', 'outputs/')
 
 # Get the path to the folder where Valohai inputs are
-input_path = os.getenv('VH_INPUTS_DIR')
+input_path = os.getenv('VH_INPUTS_DIR', 'inputs/')
 # Get the file path of our MNIST dataset that we defined in our YAML
 mnist_file_path = os.path.join(input_path, 'my-mnist-dataset/mnist.npz')
 

@@ -14,3 +14,12 @@
      - name: learning-rate
        type: float
        default: 0.001
+- endpoint:
+    name: digit-predict
+    description: predict digits from image inputs
+    image: docker.io/drazend/valohai-tf2-quickstart:0.0.3
+    wsgi: predict:application
+    files:
+      - name: model
+        description: Model output file from TensorFlow
+        path: model.h5
