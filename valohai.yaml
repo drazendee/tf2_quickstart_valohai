@@ -17,7 +17,7 @@
 - endpoint:
     name: digit-predict
     description: predict digits from image inputs
-    image: docker.io/drazend/valohai-tf2-quickstart:0.0.3
+    image: docker.io/drazend/valohai-tf2-quickstart-public:0.0.4
     wsgi: predict:application
     files:
       - name: model
