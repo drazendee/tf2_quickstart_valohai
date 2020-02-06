@@ -1,5 +1,5 @@
-numpy
 tensorflow-gpu==1.15.2
+numpy
 werkzeug==0.16.1
-opencv-python
+opencv-python==4.2.0.32
 pillow

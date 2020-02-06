@@ -18,7 +18,7 @@
     name: digit-predict
     description: predict digits from image inputs
     image: docker.io/drazend/valohai-tf2-quickstart-public:0.0.4
-    wsgi: predict:application
+    wsgi: predict:mypredictor
     files:
       - name: model
         description: Model output file from TensorFlow

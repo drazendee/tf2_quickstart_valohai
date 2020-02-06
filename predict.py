@@ -1,12 +1,13 @@
-import tensorflow as tf
 from werkzeug.wrappers import Request, Response
-import numpy
-import json
 import io
+import numpy
 import cv2
+import json
+import tensorflow as tf
 
 def read_input(request):
     # Ensure that we've received a file named 'image' through POST
+    # If we have a valid request proceed, otherwise reeturn None
     if request.method == 'POST' and 'image' in request.files:
         photo = request.files['image']
         # Save file to memory
@@ -21,15 +22,16 @@ def read_input(request):
         return img
     return None
 
-def application(environ, start_response):
+def mypredictor(environ, start_response):
+    # Get the request object from the environment
     request = Request(environ)
 
     # Get the image file from our request
     inputfile = read_input(request)
 
-
+    # If read_input didn't find a valid file
     if(inputfile is None) :
-        response = Response("No image", content_type='text/html')
+        response = Response("No image\n", content_type='text/html')
         return response(environ, start_response)
 
     # Load our model
@@ -38,17 +40,15 @@ def application(environ, start_response):
 
     # Use our model to predict the class of the file sent over a form.
     # We're reshaping the model as our model is expecting 3 dimensions (with the first one describing the number of images)
-    predicted_classes = new_model.predict_classes(inputfile.reshape(1,28,28), batch_size=1)
-    
+    prediction = new_model.predict_classes(inputfile.reshape(1,28,28))
+
     # Generate a JSON output with the prediction
-    json_response = json.dumps("{Predicted_Digit: %s}" % predicted_classes.tolist())
+    json_response = json.dumps("{Predicted_Digit: %s}" % prediction[0])
 
     # Send a response back with the prediction
-    response = Response(json.dumps(json_response), content_type='application/json') 
+    response = Response(json_response, content_type='application/json') 
     return response(environ, start_response)
 
 if __name__ == "__main__":
     from werkzeug.serving import run_simple
-    run_simple("localhost", 8000, application)
-
-
+    run_simple("localhost", 8000, mypredictor)
